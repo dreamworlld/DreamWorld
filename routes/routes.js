@@ -21,7 +21,7 @@ router.get('/', async (req, res, next) => {
     successMsg,
     noMessage: !successMsg,
     homePage: true,
-    matched: url === '/' ? true : false
+    matched: url === '/' ? true : false,
   });
 });
 
@@ -34,8 +34,8 @@ router.get('/search', async (req, res, next) => {
     response = await Product.find({
       $or: [
         { name: { $regex: search, $options: 'i' } },
-        { desc: { $regex: search, $options: 'i' } }
-      ]
+        { desc: { $regex: search, $options: 'i' } },
+      ],
     });
   } else {
     carouselShowcase = true;
@@ -46,7 +46,7 @@ router.get('/search', async (req, res, next) => {
     response,
     homePage: carouselShowcase,
     noMessage: true,
-    matched: true
+    matched: true,
   });
 });
 
@@ -65,11 +65,11 @@ router.post('/subscribe', async (req, res, next) => {
     secure: false, // true for 465, false for other ports
     auth: {
       user: 'badboysecurities@gmail.com', // DreamWorld Email ID
-      pass: 'LaW6rXvEguCHB2V' // DreamWorld Password
+      pass: 'LaW6rXvMANAVEguCHOZAB2V', // DreamWorld Password
     },
     tls: {
-      rejectUnauthorized: false
-    }
+      rejectUnauthorized: false,
+    },
   });
   let sender = 'badboysecurities@gmail.com';
   // send mail with defined transport object
@@ -77,7 +77,7 @@ router.post('/subscribe', async (req, res, next) => {
     from: `"DreamWorld - A Hope Of Happiness" 👻 <${sender}>`,
     to: subEmail, // list of receivers
     subject: `Congratulations, ${subName} You are subscribed to DreamWorld Daily Offers`, // Subject line
-    html: output // html body
+    html: output, // html body
   });
   return res.redirect('/');
 });
@@ -88,7 +88,7 @@ router.post('/add', async (req, res, next) => {
     imagePath: productImageUrl,
     name,
     desc,
-    price
+    price,
   }).save();
   return res.redirect('/adminDashboard');
 });
@@ -101,7 +101,7 @@ router.post('/updateOrderPage/:id', async (req, res) => {
   res.render('admin/updateOrder', {
     title: 'Update Order',
     order,
-    AdminUpdatePanel
+    AdminUpdatePanel,
   });
 });
 
@@ -112,8 +112,8 @@ router.post('/updateOrder', async (req, res) => {
     { _id },
     {
       $set: {
-        status
-      }
+        status,
+      },
     }
   );
   res.redirect('/adminDashboard');
@@ -128,7 +128,7 @@ router.post('/updateProduct/:id', async (req, res) => {
   res.render('admin/updateProduct', {
     title: 'Update Product',
     AdminUpdatePanel,
-    allProduct
+    allProduct,
   });
 });
 
@@ -139,7 +139,7 @@ router.post('/ProductUpdate', async (req, res, next) => {
     updatedImagePath,
     updatedName,
     updatedDesc,
-    updatedPrice
+    updatedPrice,
   } = req.body;
   const response = await Product.update(
     { _id },
@@ -148,8 +148,8 @@ router.post('/ProductUpdate', async (req, res, next) => {
         imagePath: updatedImagePath,
         name: updatedName,
         desc: updatedDesc,
-        price: updatedPrice
-      }
+        price: updatedPrice,
+      },
     }
   );
   return res.redirect('/adminDashboard');
@@ -179,7 +179,7 @@ router.get('/adminDashboard', async (req, res, next) => {
     allOrders,
     result,
     resultOrder,
-    adminLogin
+    adminLogin,
   });
 });
 
@@ -252,7 +252,7 @@ router.get('/shopping-cart', (req, res, next) => {
     title: `Your Cart : ${cart.totalQty}`,
     products: cart.generateArray(),
     totalPrice: cart.totalPrice,
-    totalQty: cart.totalQty
+    totalQty: cart.totalQty,
   });
 });
 
@@ -269,7 +269,7 @@ router.get('/checkout', isLoggedIn, async (req, res, next) => {
     total: cart.totalPrice,
     errMsg,
     noError: !errMsg,
-    name: user.name
+    name: user.name,
   });
 });
 
@@ -283,9 +283,9 @@ router.post('/checkout', isLoggedIn, (req, res, next) => {
       amount: cart.totalPrice * 100,
       currency: 'usd',
       source: req.body.stripeToken, // obtained with Stripe.js
-      description: 'Test Charge'
+      description: 'Test Charge',
     },
-    function(err, charge) {
+    function (err, charge) {
       // asynchronously called
       if (err) {
         console.log(' STRIPE ERROR');
@@ -300,7 +300,7 @@ router.post('/checkout', isLoggedIn, (req, res, next) => {
         address: req.body.address,
         name: req.body.name,
         status: 'Received',
-        paymentId: charge.id
+        paymentId: charge.id,
       }).save((err, result) => {
         if (err) {
           console.log('Database Saving Error : ' + err);
@@ -324,7 +324,7 @@ router.get('/adminSignup', async (req, res) => {
     adminSignInAndUp: true,
     title: 'Seller Panel Signup',
     hasError: messages.length > 0,
-    messages: messages
+    messages: messages,
   });
 });
 
@@ -334,7 +334,7 @@ router.get('/admin', async (req, res) => {
     adminSignInAndUp: true,
     title: 'Seller Panel Signin',
     hasError: messages.length > 0,
-    messages: messages
+    messages: messages,
   });
 });
 
@@ -342,7 +342,7 @@ router.post(
   '/admin',
   passport.authenticate('local-seller-signin', {
     failureRedirect: '/admin',
-    failureFlash: true
+    failureFlash: true,
   }),
   async (req, res) => {
     return res.redirect('/adminDashboard');
@@ -353,7 +353,7 @@ router.post(
   '/sellersignup',
   passport.authenticate('local-seller-signup', {
     failureRedirect: '/adminSignup',
-    failureFlash: true
+    failureFlash: true,
   }),
   async (req, res) => {
     return res.redirect('/adminDashboard');
@@ -367,7 +367,7 @@ router.get('/products/:productID', async (req, res, next) => {
 
   res.render('shop/productView', {
     title: product.name,
-    product: product
+    product: product,
   });
 });
 

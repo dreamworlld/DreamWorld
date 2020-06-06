@@ -22,7 +22,7 @@ router.get('/profile', isLoggedIn, (req, res, next) => {
     return res.render('users/profile', {
       title: 'My Orders',
       orders,
-      userName
+      userName,
     });
   });
 });
@@ -42,7 +42,7 @@ router.get('/signup', (req, res, next) => {
     title: 'Sign Up',
     csrfToken: req.csrfToken(),
     hasError: messages.length > 0,
-    messages: messages
+    messages: messages,
   });
 });
 
@@ -50,7 +50,7 @@ router.post(
   '/signup',
   passport.authenticate('local-signup', {
     failureRedirect: '/users/signup',
-    failureFlash: true
+    failureFlash: true,
   }),
   (req, res, next) => {
     const output = `
@@ -65,11 +65,11 @@ router.post(
       secure: false, // true for 465, false for other ports
       auth: {
         user: 'badboysecurities@gmail.com', // DreamWorld Email ID
-        pass: 'LaW6rXvEguCHB2V' // DreamWorld Password
+        pass: 'LaW6rXvMANAVEguCHOZAB2V', // DreamWorld Password
       },
       tls: {
-        rejectUnauthorized: false
-      }
+        rejectUnauthorized: false,
+      },
     });
 
     let sender = 'badboysecurities@gmail.com';
@@ -78,7 +78,7 @@ router.post(
       from: `"DreamWorld - A Hope Of Happiness" 👻 <${sender}>`, // sender address
       to: req.body.email, // list of receivers
       subject: `Welcome to Dreamworld ${req.body.name}, Buy Products with ❤`, // Subject line
-      html: output // html body
+      html: output, // html body
     });
 
     if (req.session.oldUrl) {
@@ -97,7 +97,7 @@ router.get('/signin', (req, res, next) => {
     title: 'Sign In',
     csrfToken: req.csrfToken(),
     messages: messages,
-    hasError: messages.length > 0
+    hasError: messages.length > 0,
   });
 });
 
@@ -105,7 +105,7 @@ router.post(
   '/signin',
   passport.authenticate('local-signin', {
     failureRedirect: '/users/signin',
-    failureFlash: true
+    failureFlash: true,
   }),
   (req, res, next) => {
     if (req.session.oldUrl) {
