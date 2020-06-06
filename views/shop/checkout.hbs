@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col s12 m12">
+        <div class="checkoutForm">
+            <h1>Checkout</h1>
+            <h5>Your Total: ₹ {{total}}</h5>
+            <div id="charge-error" class="alert alert-danger {{#if noError}}d-none{{/if}}">
+                {{ errMsg }}
+            </div>
+            <form action="/checkout" method="post" id="checkout-form">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="form-group">
+                            <label for="name">Consumer Name </label>
+                            <input value={{name}} type="text" name="name" id="name" required id="form-control">
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="form-group">
+                            <input placeholder="Home or Office Address" type="text" name="address" id="address" required
+                                id="form-control">
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="form-group">
+                            <input placeholder="Card Holder Name" type="text" name="card-name" id="card-name" required
+                                id="form-control">
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="form-group">
+                            <input placeholder="Credit Card Number" type="text" name="card-number" id="card-number"
+                                required id="form-control">
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="form-group">
+                            <input placeholder="Card Expiry Month" type="text" name="card-expiry-month"
+                                id="card-expiry-month" required id="form-control">
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="form-group">
+                            <input placeholder="Card Expiry Year" type="text" name="card-expiry-year"
+                                id="card-expiry-year" required id="form-control">
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="form-group">
+                            <input placeholder="Credit Card CVC" type="text" name="card-cvc" id="card-cvc" required
+                                id="form-control">
+                        </div>
+                    </div>
+                </div>
+                <button id="btn" type="submit" class="btn btn-success">Buy Now</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://js.stripe.com/v2/"></script>
+<script src="/javascripts/checkout.js"></script>

@@ -1,0 +1,198 @@
+<main class="container">
+    <div class="product">
+
+        <div id="addProduct">
+            <h1 class="">Add Product</h1>
+            <form action="/add" method="post">
+                <div class="input-field col s12 row">
+                    <div class="col s12">
+                        <input type='file' name="imagePath" id="imagePath" required>
+                        <p id="uploadLabel"></p>
+                        <label for="imagePath" class="col sm2 disabled">Upload Product Image</label>
+                        <input type="hidden" id="productImageUrl" name="productImageUrl" />
+                        <img src="" id="imgTag" alt="Product Image">
+                    </div>
+                </div>
+                <div class="input-filed col s12 row">
+                    <div class="col s12">
+                        {{!-- <label for="name" class="col-sm-2 col-form-label">Product Title</label> --}}
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Product Title/Name"
+                            required>
+                    </div>
+                </div>
+                <div class="input-filed col s12 row">
+                    {{!-- <label for="desc" class="col-sm-2 col-form-label">Product Description</label> --}}
+                    <div class="col s12">
+                        <input type="text" class="form-control" name="desc" id="desc" placeholder="Product Description"
+                            required>
+                    </div>
+                </div>
+                <div class="input-filed col s12 row">
+                    {{!-- <label for="price" class="col-sm-2 col-form-label">Product Price</label> --}}
+                    <div class="col s12">
+                        <input type="text" class="form-control" name="price" id="price" placeholder="Product Price"
+                            required>
+                    </div>
+                </div>
+                <div class="input-filed col s12 row">
+                    <div class="col s12">
+                        <button class="btn btn-success btn-large" disabled id="add-product" type="submit">Add
+                            Product</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {{!-- UPDATE PRODUCT CODE --}}
+        <div class="tab-pane fade" id="updateProduct" role="tabpanel" aria-labelledby="pills-update-tab">
+            <h1 class="display-3">Update Product</h1>
+            <br>
+            <table class="ProductTable">
+                {{#if result}}
+                <thead>
+                    <td>Product Name</td>
+                    <td>Product Description</td>
+                    <td>Product Price</td>
+                    <td>Click to Update</td>
+                </thead>
+                <tbody>
+                    {{#each allProducts}}
+                    <form method="post" action="/updateProduct/{{this.id}}">
+                        <tr>
+                            <td>
+                                {{this.name}}
+                            </td>
+                            <td>
+                                {{this.desc}}
+                            </td>
+                            <td>
+                                {{this.price}}
+                            </td>
+                            <td>
+                                <input type="hidden" name="_id" value="{{this._id}}">
+                                <input type="submit" value="Click to Update" class="btn btn-success">
+                            </td>
+                        </tr>
+                    </form>
+                    {{/each}}
+                </tbody>
+                {{else}}
+                <h2>No Products Found</h2>
+                {{/if}}
+            </table>
+        </div>
+
+        {{!-- <div class="updateProduct" id="updateProduct">
+            <h1 class="">Update Product</h1>
+            {{#if result}}
+            <div class="result">
+                {{#each allProducts}}
+                <form method="post" class="row">
+                    <div class="input-filed col s12 row">
+                        <label for="updatedImagePath">Product Image Path</label><br>
+                        <input type="text" name="updatedImagePath" id="updatedImagePath"
+                            placeholder="Product Image Path" value="{{this.imagePath}}">
+                    </div>
+                    <div class="input-filed col s12 row">
+                        <label for="updatedName">Product Name</label>
+                        <input type="text" name="updatedName" placeholder="Product Name" id="updatedName"
+                            value="{{this.name}}">
+                    </div>
+                    <div class="input-filed col s12 row">
+                        <label for="updatedDesc">Product Description</label>
+                        <input type="text" name="updatedDesc" placeholder="Product Description" id="updatedDesc"
+                            value="{{this.desc}}">
+                    </div>
+                    <div class="input-filed col s12 row">
+                        <label for="updatedPrice">Product Price</label>
+                        <input type="text" name="updatedPrice" placeholder="Product Price" id="updatedPrice"
+                            value="{{this.price}}">
+                    </div>
+                    <div class="input-filed col s12">
+                        <input type="hidden" name="_id" value="{{this._id}}">
+                        <input type="submit" value="Click to Update" class="btn btn-large">
+                    </div>
+                </form>
+                {{/each}}
+                {{else}}
+                <h2>No Products Found</h2>
+                {{/if}}
+            </div>
+        </div> --}}
+
+        {{!-- DELETE PRODUCT CODE --}}
+        <div id="deleteProduct">
+            <h1>Delete Product</h1>
+            <form action="/deleteAllProduct" method="GET" onsubmit="return validate()">
+                <button class="btn btn-large" type="submit"> Delete All Product</button>
+            </form>
+            <table class="ProductTable highlight centered responsive-table">
+                {{#if result}}
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Product Price</th>
+                        <th>Click to Delete</th>
+                    </tr>
+                </thead>
+                {{else}}
+                <h2>No Products Found</h2>
+                {{/if}}
+                <tbody>
+                    {{#each allProducts}}
+                    <tr>
+                        <td>{{this._id}}</td>
+                        <td>{{this.name}}</td>
+                        <td>{{this.price}}</td>
+                        <td><a href="/delete/{{this._id}}" class="btn btn-large">Delete Product</a></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+
+        {{!-- ALL ORDERS CODE --}}
+        <div id="allorders">
+            <h1>All Orders</h1>
+            <table class="ProductTable highlight centered responsive-table">
+                {{#if resultOrder}}
+                <thead>
+                    <th>Customer name</th>
+                    <th>Total Products</th>
+                    <th>Total Price</th>
+                    <th>Current Order Status</th>
+                    <th>Update Order</th>
+                </thead>
+                <tbody>
+                    {{#each allOrders}}
+                    <form id='updateOrder' method="post" action="/updateOrderPage/{{this._id}}">
+                        <tr>
+                            <td>
+                                {{this.userName}}
+                            </td>
+                            <td>
+                                {{this.cart.totalQty}}
+                            </td>
+                            <td>
+                                ₹{{this.cart.totalPrice}}
+                            </td>
+
+                            <td>
+                                {{this.status}}
+                            </td>
+                            <td>
+                                <input type="submit" value="Update Order Status" class="btn btn-large">
+                            </td>
+                        </tr>
+                    </form>
+                    {{/each}}
+                </tbody>
+                {{else}}
+                <h2>No Orders Received yet</h2>
+                {{/if}}
+            </table>
+        </div>
+    </div>
+</main>

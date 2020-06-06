@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col s12 m12">
+        <h4>Welcome {{ userName }} !</h4>
+        <hr>
+        <div class="cartBody">
+            <h5>My Orders</h5>
+            {{#each orders}}
+            <div class="cardBody">
+                <ul class="OrderGroup">
+                    {{#each this.items}}
+                    <li class="OrderContent">
+                        <b>{{ this.title }}</b> ({{ this.qty }} Units)
+                        <span class="badge badge-primary badge-pill">
+                            {{ this.price }}
+                        </span>
+                    </li>
+                    {{/each}}
+
+                    <div class="text-center">
+                        <h6>Your Order Status :- {{this.status}}</h6>
+                    </div>
+                </ul>
+            </div>
+            <div class="card-footer text-right">
+                Total Amount : <b> ₹ {{ this.cart.totalPrice }} </b>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="container">
+    <h1 class="display-3">Update Product</h1>
+    <br>
+    <table class="ProductTable">
+        <thead>
+            <td>Product Image Path</td>
+            <td>Product Name</td>
+            <td>Product Description</td>
+            <td>Product Price</td>
+            <td>Click to Update</td>
+        </thead>
+        <tbody>
+            {{#each allProduct}}
+            <form method="post" action="/ProductUpdate">
+                <tr>
+                    <td>
+                        <input type="text" name="updatedImagePath" id="updatedImagePath" value="{{this.imagePath}}">
+                    </td>
+                    <td>
+                        <input type="text" name="updatedName" id="updatedName" value="{{this.name}}">
+                    </td>
+                    <td>
+                        <input type="text" name="updatedDesc" id="updatedDesc" value="{{this.desc}}">
+                    </td>
+                    <td>
+                        <input type="text" name="updatedPrice" id="updatedPrice" value="{{this.price}}">
+                    </td>
+                    <td>
+                        <input type="hidden" name="_id" value="{{this._id}}">
+                        <input type="submit" value="Click to Update" class="btn btn-success">
+                    </td>
+                </tr>
+            </form>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
